@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Configure IP addresses
+ip address add 10.0.0.2/30 dev eth0
+ip address add 10.0.0.6/30 dev eth1
+
+# Add static routes to Host A and Host B
+ip route add 192.168.1.0/24 via 10.0.0.1
+ip route add 192.168.2.0/24 via 10.0.0.5
+
+# IP forwarding
+sysctl -w net.ipv4.ip_forward=1
