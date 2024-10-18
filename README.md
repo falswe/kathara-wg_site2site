@@ -38,6 +38,33 @@ ip route add default via 192.168.2.1
 ip address add 192.168.2.2/24 dev eth0
 ```
 
+## Setup extracting the *WireGuard* handshakes
+
+To be able to extract the *WireGuard* handshakes, a make command needs to be issued.
+
+```bash
+cd WireGuard/contrib/examples/extract-handshakes/
+make
+```
+
+On Ubuntu 24 the `extract_handshakes.sh` script needed to be adapted slightly.
+
+```diff
+diff --git a/contrib/examples/extract-handshakes/extract-handshakes.sh b/contrib/examples/extract-handshakes/extract-handshakes.sh
+index f794ffe..0141153 100755
+--- a/contrib/examples/extract-handshakes/extract-handshakes.sh
++++ b/contrib/examples/extract-handshakes/extract-handshakes.sh
+@@ -43,7 +43,7 @@ turn_off() {
+ }
+ 
+ trap turn_off INT TERM EXIT
+-echo "p:wireguard/idxadd index_hashtable_insert ${ARGS[*]}" >> /sys/kernel/debug/tracing/kprobe_events
++echo "p:wireguard/idxadd wg_index_hashtable_insert ${ARGS[*]}" >> /sys/kernel/debug/tracing/kprobe_events
+ echo 1 > /sys/kernel/debug/tracing/events/wireguard/idxadd/enable
+ 
+ unpack_u64() {
+```
+
 ## Run the lab
 
 To run the lab the following commands can be used inside the directory of the repository.
@@ -50,7 +77,7 @@ kathara lstart
 kathara exec inet "tcpdump -i any -w /shared/inet.pcap" &
 
 # Get keys of the WireGuard channel
-sudo extract_keys/WireGuard/contrib/examples/extract-handshakes/extract-handshakes.sh > keylog.log &
+sudo ./WireGuard/contrib/examples/extract-handshakes/extract-handshakes.sh > keylog.log &
 
 # Exchange keys of hosts and set up the WireGuard channel
 bash setup_vpn.sh

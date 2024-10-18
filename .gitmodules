@@ -1,0 +1,4 @@
+[submodule "WireGuard"]
+	path = WireGuard
+	url = https://git.zx2c4.com/WireGuard
+	branch = master
