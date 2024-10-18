@@ -42,12 +42,6 @@ echo "-----------------------------"
 kathara exec hb "cat /etc/wireguard/wg0.conf"
 echo ""
 
-# # Extract keys to keylog file
-# echo "Extract keys to keylog file"
-# echo "---------------------------"
-# sudo extract_keys/WireGuard/contrib/examples/extract-handshakes/extract-handshakes.sh > keylog.log
-# echo ""
-
 # Start WireGuard interfaces
 echo "Starting WireGuard on Host A"
 echo "----------------------------"
